@@ -34,6 +34,8 @@ jobs:
       - name: Setup Kustomize
         uses: imranismail/setup-kustomize@v2.1.0-rc
       - run: |
+          git config --global user.email "haithem.boujrida@outlook.fr"
+          git config --global user.name "Haithem Boujrida"
           cd k8s
           kustomize edit set image hkboujrida/edunest=hkboujrida/edunest:${{ env.RUN_ID }}
           git add .
