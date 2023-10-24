@@ -34,6 +34,7 @@ jobs:
       - name: Setup Kustomize
         uses: imranismail/setup-kustomize@v2.1.0-rc
       - run: |
+          cd k8s
           kustomize edit set image hkboujrida/edunest=hkboujrida/edunest:${{ env.RUN_ID }}
           git add .
           git commit -m "Set `app` image tag to `${{ env.RUN_ID }}`"
