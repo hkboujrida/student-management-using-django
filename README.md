@@ -269,3 +269,11 @@ Password: student
 - https://support.google.com/mail/thread/38519529?hl=en
 - https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
 - https://stackoverflow.com/questions/3429084/why-do-i-get-an-object-is-not-iterable-error
+
+
+#
+
+act --secret-file .github/workflows/.env -W .github/workflows/deploy-on-azure.yml
+
+argocd app create edunest --repo https://github.com/hkboujrida/student-management-using-django.git --path k8s --dest-server https://kubernetes.default.svc --dest-namespace edunest
+

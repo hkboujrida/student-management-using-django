@@ -1,0 +1,7 @@
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - postgres.yaml
+  - edunest.yaml
+
+namespace: edunest

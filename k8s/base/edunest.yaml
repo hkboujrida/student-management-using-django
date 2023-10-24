@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edunest
+spec:
+  selector:
+    matchLabels:
+      app: edunest
+  template:
+    metadata:
+      labels:
+        app: edunest
+    spec:
+      containers:
+      - name: edunest
+        image: hkboujrida/edunest:all-in-one-1
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: edunest-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edunest
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: edgeprime-oss
+    service.beta.kubernetes.io/azure-load-balancer-ipv4: 20.19.0.117
+    service.beta.kubernetes.io/azure-pip-name: pip-edunest
+spec:
+  type: LoadBalancer
+  selector:
+    app: edunest
+  ports:
+  - port: 80
+    targetPort: 80

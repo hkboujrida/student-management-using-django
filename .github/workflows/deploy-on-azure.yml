@@ -1,0 +1,40 @@
+name: all in one - deploy image to Azure
+on:
+  push:
+    branches:
+      - main
+
+env:
+  RUN_ID: ${{ github.run_id }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Build and push Docker images
+        run: |
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/edunest:all-in-one-${{ env.RUN_ID }} .
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/edunest:all-in-one-${{ env.RUN_ID }}
+
+      # - name: Run Trivy vulnerability scanner
+      #   uses: aquasecurity/trivy-action@master
+      #   with:
+      #     image-ref: '${{ secrets.DOCKER_HUB_USERNAME }}/edunest:all-in-one-${{ env.RUN_ID }}'
+      #     format: 'table'
+      #     # exit-code: '1'
+      #     ignore-unfixed: true
+      #     vuln-type: 'os,library'
+      #     severity: 'CRITICAL,HIGH'
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v2.1.0-rc
+      - run: |
+          kustomize edit set image hkboujrida/edunest=hkboujrida/edunest:${{ env.RUN_ID }}
+          git add .
+          git commit -m "Set `app` image tag to `${{ env.RUN_ID }}`"
+          git push
