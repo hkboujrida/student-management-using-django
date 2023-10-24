@@ -275,5 +275,5 @@ Password: student
 
 act --secret-file .github/workflows/.env -W .github/workflows/deploy-on-azure.yml
 
-argocd app create edunest --repo https://github.com/hkboujrida/student-management-using-django.git --path k8s --dest-server https://kubernetes.default.svc --dest-namespace edunest
+argocd app create edunest --repo https://github.com/hkboujrida/student-management-using-django.git --path k8s --dest-server https://kubernetes.default.svc --dest-namespace edunest --sync-policy automated
 
