@@ -6,6 +6,6 @@ namespace: edunest
 images:
 - name: hkboujrida/edunest
   newName: hkboujrida/edunest
-  newTag: "6640965027"
+  newTag: "6641867744"
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
